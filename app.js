@@ -44,16 +44,19 @@ bot.dialog('/', intents);
 intents.onDefault([
     function (session, args, next) {
         if (!session.userData.name) {
-            session.beginDialog('/balance');
+            session.beginDialog('/name');
         } else {
             next();
         }
     },
     function (session, results) {
-        session.send(' you have %f!', session.userData.balance.toFixed(2));
+        session.send(' Hi %s, How can I help you?', session.userData.name);
     }
 ]);
-
+intents.matches(/^name/i, [
+    function (session, results) {
+        session.beginDialog('/name')
+    }]);
 
 intents.matches(/^get balance/i,
     function (session, results) {
@@ -75,10 +78,19 @@ intents.matches(/^withdraw/i, [
         session.beginDialog('/withdraw')
     }]);
 
+bot.dialog('/name', [
+    function (session) {
+        builder.Prompts.text(session, 'Hey there, What is your name?');
+    },
+    function (session, results) {
+        session.userData.name = results.response;
+        session.beginDialog('/balance');
+    }
+]);
 
 bot.dialog('/balance', [
     function (session, results) {
-        builder.Prompts.text(session, 'Hi! How much do you have?');
+        builder.Prompts.text(session, 'What is your current balance?');
     },
     function (session, results) {
         session.userData.balance = parseFloat(results.response);
@@ -92,7 +104,7 @@ bot.dialog('/add', [
     },
     function (session, results) {
         session.userData.balance += parseFloat(results.response);
-        session.send('You now have %f', session.userData.balance.toFixed(2));
+        session.send('You now have $%f', session.userData.balance.toFixed(2));
         session.endDialog();
     }
 ]);
@@ -103,7 +115,7 @@ bot.dialog('/withdraw', [
     },
     function (session, results) {
         session.userData.balance -= parseFloat(results.response);
-        session.send('You now have %f', session.userData.balance.toFixed(2));
+        session.send('You now have $%f', session.userData.balance.toFixed(2));
         session.endDialog();
     }
 
