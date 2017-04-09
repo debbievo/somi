@@ -114,11 +114,19 @@ bot.dialog('/withdraw', [
         builder.Prompts.text(session, 'How much do you want to take out?');
     },
     function (session, results) {
+        if(session.userData.balance < parseFloat(results.response)){
+            session.send("You don't have that much money!");
+            session.send("This is all you have", session.userData.balance.toFixed(2));
+        }
+        else{
         session.userData.balance -= parseFloat(results.response);
-        session.send('You now have $%f', session.userData.balance.toFixed(2));
+        session.send('You now have %f', session.userData.balance.toFixed(2));
         session.endDialog();
+        }
     }
 
 
 ]);
+
+
 
