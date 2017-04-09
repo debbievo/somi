@@ -1,8 +1,8 @@
 var restify = require ('restify');
 var builder = require ('botbuilder');
 var cognitiveservices = require('botbuilder-cognitiveservices');
-<<<<<<< HEAD
 var connect = require('./data/sqlconnection');
+
 
 //=========================================================
 // Bot Setup
@@ -31,7 +31,6 @@ var basicQnAMakerDialog = new cognitiveservices.QnAMakerDialog({
 	defaultMessage: 'No match! Try changing the query terms!',
 	qnaThreshold: 0.3});
 
-var Bing = require('node-bing-api')({ accKey: "291b6cbe5ab148c2b1a0f6e42afe2c82" });
 //=========================================================
 // Bots Dialogs
 //=========================================================
@@ -113,18 +112,9 @@ intents.matches(/^pull/i, [
         session.beginDialog('/withdraw')
     }]);
 
-intents.matches(/^wishlist/i, [
-    function (session, results) {
-        session.beginDialog('/wishlist')
-    }]);
-
 intents.matches(/^transfer/i, [
     function (session, results) {
         session.beginDialog('/transfer')
-    }]);
-intents.matches(/^add account/i, [
-    function (session, results) {
-        session.beginDialog('/addAccount')
     }]);
 
 //bot.dialog('/help', [
@@ -135,15 +125,13 @@ intents.matches(/^add account/i, [
 bot.dialog('/name', [
     function (session) {
         session.beginDialog('/herocard');
-        //session.beginDialog('/signincard');
     },
     function (session) {
         builder.Prompts.text(session, 'What is your name?');
-        //queryDatabase();
     },
     function (session, results) {
         session.userData.name = results.response;
-        //session.beginDialog('/balance');
+        session.beginDialog('/balance');
     }
 ]);
 bot.dialog('/herocard', [
@@ -154,14 +142,6 @@ bot.dialog('/herocard', [
         session.endDialog();
     }
 ]);
-//bot.dialog('/signincard', [
-//    function (session, results) {
-//        var card = createSignInCard(session);
-//       var msg = new builder.Message(session).addAttachment(card);
-//        session.send(msg);
-//        session.endDialog();
-//    }
-//]);
 bot.dialog('/balance', [
     function (session, results) {
         builder.Prompts.text(session, 'What is your current balance?');
@@ -173,15 +153,7 @@ bot.dialog('/balance', [
         session.endDialog();
     }
 ]);
-bot.dialog('/addAccount', [
-    function (session) {
-        builder.Prompts.text(session, 'Name your account: ');
-    },
-    function (session, results) {
-    	session.userData.account.name = results.response;
-        session.endDialog();
-    }
-]);
+
 bot.dialog('/add', [
     function (session) {
         builder.Prompts.text(session, 'How much do you want to add?');
@@ -212,34 +184,6 @@ bot.dialog('/withdraw', [
         }
     }]);
 
-bot.dialog('/wishlist', [
-    function (session) {
-        builder.Prompts.text(session, 'What do you want to buy?');
-    },
-    function (session, results) {
-            Bing.web(String(results.response), {
-            top: 10,  // Number of results (max 50) 
-            skip: 3   // Skip first 3 results 
-        }, function(error, res, body){
-    
-        // body has more useful information besides web pages 
-        // (image search, related search, news, videos) 
-        // but for this example we are just 
-        // printing the first two web page results 
-        session.send(body.webPages.value[0].url);
-        session.send(body.webPages.value[1].url);
-    });
- /*
-        Bing.images(String(results.response), {
-        top: 15,   // Number of results (max 50) 
-        skip: 3    // Skip first 3 result 
-        }, function(error, res, body){
-            console.log(body.webPages.value[0].webSearchUrl);
-        });
-        */
-    }
-]);
-
 bot.dialog('/transfer', [
     function (session) {
         builder.Prompts.text(session, 'What do you want to transfer?');
@@ -257,7 +201,6 @@ bot.dialog('/transfer', [
         }
     }
 ]);
-
 function createHeroCard(session) {
     return new builder.HeroCard(session)
         .title('Hi, my name is Somi!')
@@ -265,8 +208,4 @@ function createHeroCard(session) {
         .images([
             builder.CardImage.create(session, 'https://raw.githubusercontent.com/tiffany-pan/somi/master/pics/somi.png?token=AVlM59if0lbstuqBTx4bvRqEkl5tjlzaks5Y81KTwA%3D%3D')
         ]);
-}
-function createSignInCard(session) {
-    return new builder.SigninCard(session)
-        .text('Sign In')
 }
