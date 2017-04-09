@@ -43,9 +43,10 @@ module.exports = {
 
             connection.execSql(request);
         };
-    }
+    },
+    
     /*
-    readrow: function() {
+    readrow: function(name) {
         // Create connection to database
         var config = {
             userName: 'tpan', // update me
@@ -72,7 +73,7 @@ module.exports = {
 
             // Read all rows from table
             request = new Request(
-                "SELECT TOP 1 pc.Name as CategoryName, p.name as ProductName FROM [SalesLT].[ProductCategory] pc JOIN [SalesLT].[Product] p ON pc.productcategoryid = p.productcategoryid",
+                "SELECT TOP 1 Users.Balance as Balance FROM [Users].[ProductCategory] pc JOIN [SalesLT].[Product] p ON pc.productcategoryid = p.productcategoryid",
                 function(err, rowCount, rows) {
                     console.log(rowCount + ' row(s) returned');
                 }
@@ -85,9 +86,7 @@ module.exports = {
             });
 
             connection.execSql(request);
-        }
-    },
-*/
+    }
     /*
     updaterow: function() {
         // Create connection to database
