@@ -3,8 +3,6 @@ var builder = require ('botbuilder');
 var cognitiveservices = require('botbuilder-cognitiveservices');
 var connect = require('./data/sqlconnection');
 
-
-
 connect.insertrow();
 
 //=========================================================
@@ -26,8 +24,8 @@ var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
 var recognizer = new cognitiveservices.QnAMakerRecognizer({
-	knowledgeBaseId: '67e04557-1c27-4045-b1c1-8469aab5e53c', 
-	subscriptionKey: 'fe6e8e5c4d364d4ebb55428ec4030b48'});
+	knowledgeBaseId: '05ea5c10-d052-444b-878a-f896b0f1d656', 
+	subscriptionKey: '8753c18466b04b2bb2abb26ea4e3bdae'});
 	
 var basicQnAMakerDialog = new cognitiveservices.QnAMakerDialog({ 
 	recognizers: [recognizer],
@@ -57,7 +55,10 @@ intents.matches(/^name/i, [
     function (session, results) {
         session.beginDialog('/name')
     }]);
-
+intents.matches(/^help/i, [
+    function (session, results) {
+        session.beginDialog('/help')
+    }]);
 intents.matches(/^get balance/i,
     function (session, results) {
         session.send('Ok... your balance is %f', session.userData.balance.toFixed(2));
@@ -111,6 +112,8 @@ intents.matches(/^pull/i, [
         session.beginDialog('/withdraw')
     }]);
     
+bot.dialog('/help', basicQnAMakerDialog);
+
 bot.dialog('/name', [
     function (session) {
         builder.Prompts.text(session, 'Hey there, What is your name?');
@@ -161,6 +164,5 @@ bot.dialog('/withdraw', [
 
 
 ]);
-
 
 
