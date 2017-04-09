@@ -120,7 +120,6 @@ intents.matches(/^transfer/i, [
 //        session.beginDialog('/herocard');
 //   }
 //]);
-
 bot.dialog('/name', [
     function (session) {
         session.beginDialog('/herocard');
@@ -147,7 +146,7 @@ bot.dialog('/balance', [
     },
     function (session, results) {
         session.userData.balance = parseFloat(results.response);
-        connect.insertRow(session.userData.name, session.userData.balance);
+        //connect.insertRow(session.userData.name, session.userData.balance);
         session.endDialog();
     }
 ]);
@@ -158,6 +157,9 @@ bot.dialog('/add', [
     },
     function (session, results) {
         session.userData.balance += parseFloat(results.response);
+    	var val = (String(results.response).replace(/[^0-9]/g,''));
+
+        session.userData.balance += parseFloat(val);
         session.send('You now have $%f', session.userData.balance.toFixed(2));
         session.endDialog();
     }

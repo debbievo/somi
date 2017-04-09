@@ -14,5 +14,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tiffany",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiffany-pan/somi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tiffany-pan/somi/issues"
+  },
+  "homepage": "https://github.com/tiffany-pan/somi#readme"
 }
