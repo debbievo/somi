@@ -117,7 +117,7 @@ intents.matches(/^transfer/i, [
 
 //bot.dialog('/help', [
 //    function (session) {
-//        session.beginDialog('/herocardHelp');
+//        session.beginDialog('/herocard');
 //   }
 //]);
 
