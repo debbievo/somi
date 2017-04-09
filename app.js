@@ -64,19 +64,19 @@ intents.matches(/^help/i, [
     }]);
 intents.matches(/^get balance/i,
     function (session, results) {
-        session.send('Ok... your balance is %f', session.userData.balance.toFixed(2));
+        session.send('Ok... your balance is $%f', session.userData.balance.toFixed(2));
     });
 intents.matches(/^balance/i,
     function (session, results) {
-        session.send('Ok... your balance is %f', session.userData.balance.toFixed(2));
+        session.send('Ok... your balance is $%f', session.userData.balance.toFixed(2));
     });
 intents.matches(/^check balance/i,
     function (session, results) {
-        session.send('Ok... your balance is %f', session.userData.balance.toFixed(2));
+        session.send('Ok... your balance is $%f', session.userData.balance.toFixed(2));
     });
 intents.matches(/^current balance/i,
     function (session, results) {
-        session.send('Ok... your balance is %f', session.userData.balance.toFixed(2));
+        session.send('Ok... your balance is $%f', session.userData.balance.toFixed(2));
     });
 
 intents.matches(/^add/i, [
@@ -120,7 +120,11 @@ intents.matches(/^transfer/i, [
         session.beginDialog('/transfer')
     }]);
 
-//bot.dialog('/help', basicQnAMakerDialog);
+//bot.dialog('/help', [
+//    function (session) {
+//        session.beginDialog('/herocardHelp');
+//   }
+//]);
 
 bot.dialog('/name', [
     function (session) {
@@ -187,11 +191,11 @@ bot.dialog('/transfer', [
     function (session, results) {
         if(session.userData.balance < parseFloat(results.response)){
             session.send("You don't have that much money!");
-            session.send("All you have is %f", session.userData.balance.toFixed(2));
+            session.send("All you have is $%f", session.userData.balance.toFixed(2));
         }
         else{
         session.userData.balance -= parseFloat(results.response);
-        session.send('You now have %f', session.userData.balance.toFixed(2));
+        session.send('You now have $%f', session.userData.balance.toFixed(2));
         session.endDialog();
         }
     }
@@ -201,6 +205,6 @@ function createHeroCard(session) {
         .title('Hi, my name is Somi!')
         .subtitle('I can help manage your bank account.')
         .images([
-            builder.CardImage.create(session, '../pics/somi.png')
+            builder.CardImage.create(session, 'https://raw.githubusercontent.com/tiffany-pan/somi/master/pics/somi.png?token=AVlM59if0lbstuqBTx4bvRqEkl5tjlzaks5Y81KTwA%3D%3D')
         ]);
 }
