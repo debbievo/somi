@@ -62,13 +62,32 @@ intents.matches(/^get balance/i,
     function (session, results) {
         session.send('Ok... your balance is %f', session.userData.balance.toFixed(2));
     });
+intents.matches(/^balance/i,
+    function (session, results) {
+        session.send('Ok... your balance is %f', session.userData.balance.toFixed(2));
+    });
+intents.matches(/^check balance/i,
+    function (session, results) {
+        session.send('Ok... your balance is %f', session.userData.balance.toFixed(2));
+    });
+intents.matches(/^current balance/i,
+    function (session, results) {
+        session.send('Ok... your balance is %f', session.userData.balance.toFixed(2));
+    });
 
 intents.matches(/^add/i, [
     function (session, results) {
         session.beginDialog('/add')
     }]);
-
 intents.matches(/^deposit/i, [
+    function (session, results) {
+        session.beginDialog('/add')
+    }]);
+intents.matches(/^place/i, [
+    function (session, results) {
+        session.beginDialog('/add')
+    }]);
+intents.matches(/^put/i, [
     function (session, results) {
         session.beginDialog('/add')
     }]);
@@ -77,7 +96,21 @@ intents.matches(/^withdraw/i, [
     function (session, results) {
         session.beginDialog('/withdraw')
     }]);
+intents.matches(/^take/i, [
+    function (session, results) {
+        session.beginDialog('/withdraw')
+    }]);
 
+intents.matches(/^remove/i, [
+    function (session, results) {
+        session.beginDialog('/withdraw')
+    }]);
+
+intents.matches(/^pull/i, [
+    function (session, results) {
+        session.beginDialog('/withdraw')
+    }]);
+    
 bot.dialog('/name', [
     function (session) {
         builder.Prompts.text(session, 'Hey there, What is your name?');
