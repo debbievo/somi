@@ -158,7 +158,7 @@ bot.dialog('/withdraw', [
     function (session, results) {
         if(session.userData.balance < parseFloat(results.response)){
             session.send("You don't have that much money!");
-            session.send("This is all you have %f", session.userData.balance.toFixed(2));
+            session.send("All you have is %f", session.userData.balance.toFixed(2));
         }
         else{
         session.userData.balance -= parseFloat(results.response);
@@ -174,7 +174,7 @@ bot.dialog('/transfer', [
     function (session, results) {
         if(session.userData.balance < parseFloat(results.response)){
             session.send("You don't have that much money!");
-            session.send("This is all you have %f", session.userData.balance.toFixed(2));
+            session.send("All you have is %f", session.userData.balance.toFixed(2));
         }
         else{
         session.userData.balance -= parseFloat(results.response);
