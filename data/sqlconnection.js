@@ -45,8 +45,7 @@ module.exports = {
         };
     },
     
-    /*
-    readrow: function(name) {
+    readRow: function(name) {
         // Create connection to database
         var config = {
             userName: 'tpan', // update me
@@ -73,19 +72,22 @@ module.exports = {
 
             // Read all rows from table
             request = new Request(
-                "SELECT TOP 1 Users.Balance as Balance FROM [Users].[ProductCategory] pc JOIN [SalesLT].[Product] p ON pc.productcategoryid = p.productcategoryid",
+                "SELECT Users.Balance WHERE Users.Name = @pname",
                 function(err, rowCount, rows) {
                     console.log(rowCount + ' row(s) returned');
                 }
             );
 
+            request.addParameter('pname', TYPES.NVarChar, name);
+
             request.on('row', function(columns) {
                 columns.forEach(function(column) {
-                    console.log("%s\t%s", column.metadata.colName, column.value);
+                    console.log("Balance: %f", "column.value");
                 });
             });
 
             connection.execSql(request);
+        }
     }
     /*
     updaterow: function() {
