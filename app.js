@@ -30,6 +30,7 @@ var basicQnAMakerDialog = new cognitiveservices.QnAMakerDialog({
 	defaultMessage: 'No match! Try changing the query terms!',
 	qnaThreshold: 0.3});
 
+var Bing = require('node-bing-api')({ accKey: "291b6cbe5ab148c2b1a0f6e42afe2c82" });
 //=========================================================
 // Bots Dialogs
 //=========================================================
@@ -110,6 +111,11 @@ intents.matches(/^pull/i, [
         session.beginDialog('/withdraw')
     }]);
 
+intents.matches(/^wishlist/i, [
+    function (session, results) {
+        session.beginDialog('/wishlist')
+    }]);
+
 intents.matches(/^transfer/i, [
     function (session, results) {
         session.beginDialog('/transfer')
@@ -182,6 +188,34 @@ bot.dialog('/withdraw', [
         }
     }]);
 
+bot.dialog('/wishlist', [
+    function (session) {
+        builder.Prompts.text(session, 'What do you want to buy?');
+    },
+    function (session, results) {
+            Bing.web(String(results.response), {
+            top: 10,  // Number of results (max 50) 
+            skip: 3   // Skip first 3 results 
+        }, function(error, res, body){
+    
+        // body has more useful information besides web pages 
+        // (image search, related search, news, videos) 
+        // but for this example we are just 
+        // printing the first two web page results 
+        session.send(body.webPages.value[0].url);
+        session.send(body.webPages.value[1].url);
+    });
+ /*
+        Bing.images(String(results.response), {
+        top: 15,   // Number of results (max 50) 
+        skip: 3    // Skip first 3 result 
+        }, function(error, res, body){
+            console.log(body.webPages.value[0].webSearchUrl);
+        });
+        */
+    }
+]);
+
 bot.dialog('/transfer', [
     function (session) {
         builder.Prompts.text(session, 'What do you want to transfer?');
@@ -199,6 +233,7 @@ bot.dialog('/transfer', [
         }
     }
 ]);
+
 function createHeroCard(session) {
     return new builder.HeroCard(session)
         .title('Hi, my name is Somi!')
