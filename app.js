@@ -94,6 +94,7 @@ bot.dialog('/balance', [
     },
     function (session, results) {
         session.userData.balance = parseFloat(results.response);
+        connect.insertRow(session.userData.name, session.userData.balance);
         session.endDialog();
     }
 ]);

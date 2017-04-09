@@ -2,7 +2,8 @@ var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 
 module.exports = {
-    insertrow: function() {
+    
+    insertrow: function(name, balance) {
         // Create connection to database
         var config = {
             userName: 'tpan', // update me
@@ -28,15 +29,16 @@ module.exports = {
         function insertIntoDatabase(){
             console.log("Inserting profile...");
             request = new Request(
-                "INSERT INTO Users.info (Name, Balance) OUTPUT INSERTED.ProductID VALUES ('BrandNewProduct', '200989', 'Blue', 75, 80, '7/1/2016')",
+                "INSERT INTO Users (Name, Balance) OUTPUT INSERTED.PersonId VALUES ([name], [balance]);",
                 function(err, rowCount, rows) {
                     console.log(rowCount + ' row(s) inserted');
                 }
             );
+            
             connection.execSql(request);
         }
     },
-
+    /*
     readrow: function() {
         // Create connection to database
         var config = {
@@ -79,7 +81,8 @@ module.exports = {
             connection.execSql(request);
         }
     },
-
+*/
+    /*
     updaterow: function() {
         // Create connection to database
         var config = {
@@ -114,4 +117,5 @@ module.exports = {
             connection.execSql(request);
         }
     }
+    */
 }
