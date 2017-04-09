@@ -191,7 +191,7 @@ bot.dialog('/transfer', [
         session.send('You now have %f', session.userData.balance.toFixed(2));
         session.endDialog();
         }
-    }]);
+    }
 ]);
 function createHeroCard(session) {
     return new builder.HeroCard(session)
