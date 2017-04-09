@@ -91,7 +91,7 @@ bot.dialog('/add', [
         builder.Prompts.text(session, 'How much do you want to add?');
     },
     function (session, results) {
-        session.userData.balance += parseFloat(results.response) + "<br>";
+        session.userData.balance += parseFloat(results.response);
         session.send('You now have %f', session.userData.balance.toFixed(2));
         session.endDialog();
     }
