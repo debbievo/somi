@@ -5,7 +5,6 @@ var PersonIdCount = Math.floor(Math.random() * 100000);
 var ItemIdCount = Math.floor(Math.random() * 100000);;
 
 module.exports = {
-    
     addUser: function(name, balance) {
         // Create connection to database
         var config = {
@@ -86,7 +85,7 @@ module.exports = {
         };
     },
     
-    getUser: function(name) {
+    getUser: function(name, session) {
         // Create connection to database
         var config = {
             userName: 'tpan', // update me
@@ -104,31 +103,35 @@ module.exports = {
                 console.log(err)
             }
             else{
-                queryDatabase()
-            }
-        });
+                console.log('Reading rows from the Table...');
 
-        function queryDatabase(){
-            console.log('Reading rows from the Table...');
+                var value = "SELECT Balance FROM Users WHERE Name='" + name + "'";
+                var balance = 0;
 
-            // Read all rows from table
-            request = new Request(
-                "SELECT Users.Balance WHERE Users.Name = @pname",
-                function(err, rowCount, rows) {
-                    console.log(rowCount + ' row(s) returned');
-                }
-            );
-
-            request.addParameter('pname', TYPES.NVarChar, name);
-
-            request.on('row', function(columns) {
-                columns.forEach(function(column) {
-                    console.log("Balance: %f", "column.value");
+                // Read all rows from table
+                request = new Request(
+                    value,
+                    function(err, rowCount, rows) {
+                        console.log(rowCount + ' row(s) returned');
+                        session.send('Ok... your balance is $' + balance)
+                        return;
+                        ///return balance;
+                    }
+                );
+                
+                request.addParameter('pname', TYPES.NVarChar, name);
+                console.log("pname something");
+                request.on('row', function(columns) {
+                    columns.forEach(function(column) {
+                        console.log("we got here: ", column.value);
+                        balance = column.value;
+                    });
                 });
-            });
 
-            connection.execSql(request);
-        }
+                connection.execSql(request);
+                console.log("executed");
+                }
+        });
     }
 
     /*

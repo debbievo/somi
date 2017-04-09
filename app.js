@@ -3,6 +3,7 @@ var builder = require ('botbuilder');
 var cognitiveservices = require('botbuilder-cognitiveservices');
 var connect = require('./data/sqlconnection');
 
+
 //=========================================================
 // Bot Setup
 //========================================================
@@ -59,19 +60,20 @@ intents.matches(/^help/i, [
     }]);
 intents.matches(/^get balance/i,
     function (session, results) {
-        session.send('Ok... your balance is $%f', session.userData.balance.toFixed(2));
+        connect.getUser(session.userData.name, session)
     });
 intents.matches(/^balance/i,
     function (session, results) {
-        session.send('Ok... your balance is $%f', session.userData.balance.toFixed(2));
+        connect.getUser(session.userData.name, session)
+        
     });
 intents.matches(/^check balance/i,
     function (session, results) {
-        session.send('Ok... your balance is $%f', session.userData.balance.toFixed(2));
+        connect.getUser(session.userData.name, session)
     });
 intents.matches(/^current balance/i,
     function (session, results) {
-        session.send('Ok... your balance is $%f', session.userData.balance.toFixed(2));
+        connect.getUser(session.userData.name, session)
     });
 
 intents.matches(/^add/i, [
