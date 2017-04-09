@@ -1,0 +1,81 @@
+-- create the database
+USE somi
+GO
+IF NOT EXISTS (
+   SELECT name
+   FROM sys.databases
+   WHERE name = N'somi'
+)
+CREATE DATABASE [somi]
+GO
+
+-- create table Users
+-- Create a new table called 'TableName' in schema 'SchemaName'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.Users', 'U') IS NOT NULL
+DROP TABLE dbo.Users
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.Users
+(
+    PersonId INT NOT NULL PRIMARY KEY, -- primary key column
+    Name [NVARCHAR](50) NOT NULL,
+    Balance [DECIMAL] NOT NULL,
+    ListId INT
+);
+GO
+
+-- create table List
+-- Create a new table called 'TableName' in schema 'SchemaName'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.List', 'U') IS NOT NULL
+DROP TABLE dbo.List
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.List
+(
+    ListId INT NOT NULL PRIMARY KEY, -- primary key column
+    Name [NVARCHAR](50) NOT NULL
+);
+GO
+
+-- create table Items
+-- Create a new table called 'TableName' in schema 'SchemaName'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.Items', 'U') IS NOT NULL
+DROP TABLE dbo.Items
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.Items
+(   
+    ItemId INT NOT NULL PRIMARY KEY, -- primary key column
+    PersonId INT NOT NULL,
+    Name [NVARCHAR](50) NOT NULL,
+    Cost [DECIMAL],
+    Balance [DECIMAL]
+);
+GO
+
+-- Insert rows into table 'Employees'
+INSERT INTO Users
+   ([PersonId],[Name],[Balance], [ItemId])
+VALUES
+   ( 1, N'Jared', 840.05, 1),
+   ( 2, N'Nikita', 7100, 2),
+   ( 3, N'Tom', 950.55, 3),
+   ( 4, N'Jake', 3225.12, 4)
+INSERT INTO Items
+   ([ItemId],[Name], [Cost], [Balance])
+VALUES
+   ( 1, N'Bills', 50, 2),
+   ( 2, N'School', 200, 100),
+   ( 3, N'Car', 75, 0),
+   ( 4, N'Food', 120, 0),
+   ( 5, N'House', 550, 300)   
+GO   
+-- Query the total count of employees
+SELECT COUNT(*) as UserSpending FROM dbo.Users;
+-- Query all employee information
+SELECT e.PersonId, e.Name, e.Balance 
+FROM dbo.Users as e
+GO
