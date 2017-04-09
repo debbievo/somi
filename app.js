@@ -147,7 +147,7 @@ bot.dialog('/balance', [
     function (session, results) {
     	var val = (String(results.response).replace(/[^0-9]/g,''));
         session.userData.balance = parseFloat(val);
-        //connect.insertRow(session.userData.name, session.userData.balance);
+        connect.addUser(session.userData.name, session.userData.balance);
         session.endDialog();
     }
 ]);
