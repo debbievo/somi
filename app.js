@@ -117,25 +117,35 @@ intents.matches(/^transfer/i, [
         session.beginDialog('/transfer')
     }]);
 
-bot.dialog('/help', basicQnAMakerDialog);
+//bot.dialog('/help', basicQnAMakerDialog);
 
 bot.dialog('/name', [
     function (session) {
-        builder.Prompts.text(session, 'Hey there, What is your name?');
+        session.beginDialog('/herocard');
+    },
+    function (session) {
+        builder.Prompts.text(session, 'What is your name?');
     },
     function (session, results) {
         session.userData.name = results.response;
         session.beginDialog('/balance');
     }
 ]);
-
+bot.dialog('/herocard', [
+    function (session, results) {
+        var card = createHeroCard(session);
+        var msg = new builder.Message(session).addAttachment(card);
+        session.send(msg);
+        session.endDialog();  
+    }
+]);
 bot.dialog('/balance', [
     function (session, results) {
         builder.Prompts.text(session, 'What is your current balance?');
     },
     function (session, results) {
         session.userData.balance = parseFloat(results.response);
-        connect.insertRow(session.userData.name, session.userData.balance);
+        //connect.insertRow(session.userData.name, session.userData.balance);
         session.endDialog();
     }
 ]);
@@ -182,7 +192,12 @@ bot.dialog('/transfer', [
         session.endDialog();
         }
     }]);
-
-
-
-
+]);
+function createHeroCard(session) {
+    return new builder.HeroCard(session)
+        .title('Hi, my name is Somi!')
+        .subtitle('I can help manage your bank account.')
+        .images([
+            builder.CardImage.create(session, '../pics/somi.png')
+        ]);
+}
