@@ -111,7 +111,12 @@ intents.matches(/^pull/i, [
     function (session, results) {
         session.beginDialog('/withdraw')
     }]);
-    
+
+intents.matches(/^transfer/i, [
+    function (session, results) {
+        session.beginDialog('/transfer')
+    }]);
+
 bot.dialog('/help', basicQnAMakerDialog);
 
 bot.dialog('/name', [
@@ -153,16 +158,31 @@ bot.dialog('/withdraw', [
     function (session, results) {
         if(session.userData.balance < parseFloat(results.response)){
             session.send("You don't have that much money!");
-            session.send("This is all you have", session.userData.balance.toFixed(2));
+            session.send("This is all you have %f", session.userData.balance.toFixed(2));
         }
         else{
         session.userData.balance -= parseFloat(results.response);
         session.send('You now have %f', session.userData.balance.toFixed(2));
         session.endDialog();
         }
-    }
+    }]);
+
+bot.dialog('/transfer', [
+    function (session) {
+        builder.Prompts.text(session, 'What do you want to transfer?');
+    },
+    function (session, results) {
+        if(session.userData.balance < parseFloat(results.response)){
+            session.send("You don't have that much money!");
+            session.send("This is all you have %f", session.userData.balance.toFixed(2));
+        }
+        else{
+        session.userData.balance -= parseFloat(results.response);
+        session.send('You now have %f', session.userData.balance.toFixed(2));
+        session.endDialog();
+        }
+    }]);
 
 
-]);
 
 
