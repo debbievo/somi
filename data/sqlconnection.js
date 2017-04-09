@@ -29,7 +29,7 @@ module.exports = {
         });
 
         function insertIntoDatabase(){
-        var request = new Request("INSERT INTO Users (PersonId, Name, Balance) VALUES (@personid, @pname, @pbalance)",
+        request = new Request("INSERT INTO Users (PersonId, Name, Balance) VALUES (@personid, @pname, @pbalance)",
             function(err){
                 if(err){
                     console.log(err);
@@ -89,6 +89,7 @@ module.exports = {
             connection.execSql(request);
         }
     }
+}
     /*
     updaterow: function() {
         // Create connection to database
@@ -125,4 +126,3 @@ module.exports = {
         }
     }
     */
-}
