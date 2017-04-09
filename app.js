@@ -5,14 +5,14 @@ var connect = require('./data/sqlconnection');
 
 //=========================================================
 // Bot Setup
-//=========================================================
+//========================================================
 
 // Setup Restify Server
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
-   console.log('%s listening to %s', server.name, server.url); 
+   console.log('%s listening to %s', server.name, server.url);
 });
-  
+
 // Create chat bot
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
@@ -22,10 +22,10 @@ var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
 var recognizer = new cognitiveservices.QnAMakerRecognizer({
-	knowledgeBaseId: '05ea5c10-d052-444b-878a-f896b0f1d656', 
+	knowledgeBaseId: '05ea5c10-d052-444b-878a-f896b0f1d656',
 	subscriptionKey: '8753c18466b04b2bb2abb26ea4e3bdae'});
-	
-var basicQnAMakerDialog = new cognitiveservices.QnAMakerDialog({ 
+
+var basicQnAMakerDialog = new cognitiveservices.QnAMakerDialog({
 	recognizers: [recognizer],
 	defaultMessage: 'No match! Try changing the query terms!',
 	qnaThreshold: 0.3});
@@ -137,7 +137,7 @@ bot.dialog('/herocard', [
         var card = createHeroCard(session);
         var msg = new builder.Message(session).addAttachment(card);
         session.send(msg);
-        session.endDialog();  
+        session.endDialog();
     }
 ]);
 bot.dialog('/balance', [
