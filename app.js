@@ -145,7 +145,8 @@ bot.dialog('/balance', [
         builder.Prompts.text(session, 'What is your current balance?');
     },
     function (session, results) {
-        session.userData.balance = parseFloat(results.response);
+    	var val = (String(results.response).replace(/[^0-9]/g,''));
+        session.userData.balance = parseFloat(var);
         //connect.insertRow(session.userData.name, session.userData.balance);
         session.endDialog();
     }
@@ -156,7 +157,6 @@ bot.dialog('/add', [
         builder.Prompts.text(session, 'How much do you want to add?');
     },
     function (session, results) {
-        session.userData.balance += parseFloat(results.response);
     	var val = (String(results.response).replace(/[^0-9]/g,''));
 
         session.userData.balance += parseFloat(val);
@@ -170,12 +170,13 @@ bot.dialog('/withdraw', [
         builder.Prompts.text(session, 'How much do you want to take out?');
     },
     function (session, results) {
-        if(session.userData.balance < parseFloat(results.response)){
+    	var val = (String(results.response).replace(/[^0-9]/g,''));
+        if(session.userData.balance < parseFloat(var)){
             session.send("You don't have that much money!");
             session.send("All you have is %f", session.userData.balance.toFixed(2));
         }
         else{
-        session.userData.balance -= parseFloat(results.response);
+        session.userData.balance -= parseFloat(var);
         session.send('You now have %f', session.userData.balance.toFixed(2));
         session.endDialog();
         }
@@ -186,12 +187,13 @@ bot.dialog('/transfer', [
         builder.Prompts.text(session, 'What do you want to transfer?');
     },
     function (session, results) {
-        if(session.userData.balance < parseFloat(results.response)){
+    	var val = (String(results.response).replace(/[^0-9]/g,''));
+        if(session.userData.balance < parseFloat(val)){
             session.send("You don't have that much money!");
             session.send("All you have is $%f", session.userData.balance.toFixed(2));
         }
         else{
-        session.userData.balance -= parseFloat(results.response);
+        session.userData.balance -= parseFloat(val);
         session.send('You now have $%f', session.userData.balance.toFixed(2));
         session.endDialog();
         }
