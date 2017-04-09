@@ -146,7 +146,7 @@ bot.dialog('/balance', [
     },
     function (session, results) {
     	var val = (String(results.response).replace(/[^0-9]/g,''));
-        session.userData.balance = parseFloat(var);
+        session.userData.balance = parseFloat(val);
         //connect.insertRow(session.userData.name, session.userData.balance);
         session.endDialog();
     }
@@ -171,12 +171,12 @@ bot.dialog('/withdraw', [
     },
     function (session, results) {
     	var val = (String(results.response).replace(/[^0-9]/g,''));
-        if(session.userData.balance < parseFloat(var)){
+        if(session.userData.balance < parseFloat(val)){
             session.send("You don't have that much money!");
             session.send("All you have is %f", session.userData.balance.toFixed(2));
         }
         else{
-        session.userData.balance -= parseFloat(var);
+        session.userData.balance -= parseFloat(val);
         session.send('You now have %f', session.userData.balance.toFixed(2));
         session.endDialog();
         }
