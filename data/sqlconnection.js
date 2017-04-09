@@ -1,5 +1,7 @@
 var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
+TYPES = require('tedious').TYPES;
+var PersonIdCount = 30;
 
 module.exports = {
     
@@ -27,17 +29,21 @@ module.exports = {
         });
 
         function insertIntoDatabase(){
-            console.log("Inserting profile...");
-            request = new Request(
-                "INSERT INTO Users (Name, Balance) OUTPUT INSERTED.PersonId VALUES ([name], [balance]);",
-                function(err, rowCount, rows) {
-                    console.log(rowCount + ' row(s) inserted');
-                }
-            );
-            
+        var request = new Request("INSERT INTO Users (PersonId, Name, Balance) VALUES (@personid, @pname, @pbalance)",
+            function(err){
+                if(err){
+                    console.log(err);
+                };
+            });
+
+            PersonIdCount++;
+            request.addParameter('personid', TYPES.Int, PersonIdCount);
+            request.addParameter('pname', TYPES.NVarChar, name);
+            request.addParameter('pbalance', TYPES.Decimal, balance);
+
             connection.execSql(request);
-        }
-    },
+        };
+    }
     /*
     readrow: function() {
         // Create connection to database

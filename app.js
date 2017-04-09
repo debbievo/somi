@@ -3,10 +3,6 @@ var builder = require ('botbuilder');
 var cognitiveservices = require('botbuilder-cognitiveservices');
 var connect = require('./data/sqlconnection');
 
-
-
-connect.insertrow();
-
 //=========================================================
 // Bot Setup
 //=========================================================
