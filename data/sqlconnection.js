@@ -5,7 +5,7 @@ var PersonIdCount = 30;
 
 module.exports = {
     
-    insertrow: function(name, balance) {
+    insertRow: function(name, balance) {
         // Create connection to database
         var config = {
             userName: 'tpan', // update me
