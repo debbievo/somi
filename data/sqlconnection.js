@@ -29,7 +29,7 @@ module.exports = {
         });
 
         function insertIntoDatabase(){
-        var request = new Request("INSERT INTO Users (PersonId, Name, Balance) VALUES (@personid, @pname, @pbalance)",
+        request = new Request("INSERT INTO Users (PersonId, Name, Balance) VALUES (@personid, @pname, @pbalance)",
             function(err){
                 if(err){
                     console.log(err);
@@ -133,7 +133,11 @@ module.exports = {
                 }
         });
     }
+<<<<<<< HEAD
 
+=======
+}
+>>>>>>> 88574e44df4581a0a1bf4d14ea40007f759af4e5
     /*
     updateUser: function() {
         // Create connection to database
@@ -170,4 +174,3 @@ module.exports = {
         }
     }
     */
-}

@@ -4,6 +4,7 @@
   "description": "money bot",
   "main": "index.js",
   "dependencies": {
+    "bing.search": "^1.0.1",
     "botbuilder": "^3.7.0",
     "botbuilder-cognitiveservices": "^1.0.1",
     "restify": "^4.3.0",
